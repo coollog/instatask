@@ -1,0 +1,44 @@
+<style>
+  success {
+    display: none;
+  }
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script>
+  $(function() {
+    $('#register').click(function() {
+      var email = $('input[name=email]').val();
+      var name = $('input[name=name]').val();
+      var phone = $('input[name=phone]').val();
+
+      $.post('/register', {
+        email: email,
+        name: name,
+        phone: phone
+      }).done(function() {
+        $('register').hide();
+        $('success').show();
+      });
+    });
+  });
+</script>
+
+<register>
+  <div>
+    Email: <input name="email" type="email" />
+  </div>
+  <div>
+    Name: <input name="name" />
+  </div>
+  <div>
+    Phone: <input name="phone" type="phone" />
+  </div>
+  <div>
+    <button id="register">Register</button>
+  </div>
+</register>
+<success>
+  WHOOO
+</success>
