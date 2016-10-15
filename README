@@ -1,2 +1,6 @@
 # Setup
+<<<<<<< HEAD
 npm install
+=======
+npm install --save
+>>>>>>> 3a65d4d2a7e4f29ae4ce4da0f8ac48f27d558539
