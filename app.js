@@ -37,6 +37,16 @@ app.get('/', function(req, res) {
   res.send(fs.readFileSync('register.html', 'utf8'));
 });
 
+app.get('/working', function(req, res) {
+  res.send(fs.readFileSync('working.html', 'utf8'));
+});
+
+app.get('/finishworking', function(req, res) {
+  res.send('done');
+});
+
+app.get('/workinglocations')
+
 app.post('/register', function(req, res) {
   if (!userModel) res.send('crap');
   userModel.insert(req.body.name, req.body.phone, req.body.email);
