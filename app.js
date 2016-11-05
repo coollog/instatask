@@ -1,16 +1,20 @@
 var bodyParser = require('body-parser')
+var path = require("path");
 var express = require('express')
 var fs = require('fs');
 var MongoClient = require('mongodb').MongoClient;
+var ObjectID = require('mongodb').ObjectID;
 var test = require('assert');
 
 
 // Connection url
 var mongoURI = 'mongodb://instatask:firstletters@ds059316.mlab.com:59316/instatask';
 var userModel = null;
+var taskModel = null;
 // Connect using MongoClient
 MongoClient.connect(mongoURI, function(err, db) {
   userModel = new UserModel(db);
+  taskModel = new TaskModel(db);
 });
 
 var UserModel = function(db) {
@@ -37,7 +41,35 @@ UserModel.prototype.find = function(email, pass, callback) {
   });
 };
 
-function checkLogin(res) {
+var TaskModel = function(db) {
+  this.collection = db.collection('tasks');
+};
+TaskModel.prototype.insert = function(
+    title, employer, description, latitude, longitude, payment, callback) {
+  var task = {
+    title: title,
+    employer: new ObjectID(employer),
+    employee: null,
+    description: description,
+    latitude: latitude,
+    longitude: longitude,
+    payment: payment,
+    status: 'open'
+  };
+  this.collection.insertOne(task, function(err, result) {
+    test.equal(null, err);
+    callback(result.insertedId);
+  });
+};
+TaskModel.prototype.get = function(_id, callback) {
+  _id = new ObjectID(_id);
+  this.collection.findOne({ _id: _id }, function(err, result) {
+    test.equal(null, err);
+    callback(result);
+  });
+};
+
+function checkLogin(req, res) {
   if (req.session.user) return true;
 
   res.send({
@@ -60,6 +92,10 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+app.set ('views', __dirname + '/views');
+app.set ('view engine', 'ejs');
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
 
@@ -116,6 +152,38 @@ app.post('/login', function(req, res) {
     req.session.user = _id;
     res.send({});
   });
+});
+
+app.post('/getTask', function(req, res) {
+  if (!checkLogin(req, res)) return;
+
+  var _id = req.body._id;
+
+  var task = taskModel.get(_id, function(task) {
+    res.send(task);
+  });
+});
+
+app.get('/postTask', function(req, res) {
+  if (!checkLogin(req, res)) return;
+
+  res.sendFile(path.join(__dirname,'giver.html'));
+});
+
+app.post('/postTask', function(req, res) {
+  if (!checkLogin(req, res)) return;
+
+  var title = req.body.title;
+  var employer = req.session.user;
+  var description = req.body.description;
+  var latitude = req.body.latitude;
+  var longitude = req.body.longitude;
+  var payment = req.body.payment;
+
+  taskModel.insert(title, employer, description, latitude, longitude, payment,
+      function(_id) {
+        res.send({ _id: _id });
+      });
 });
 
 app.listen(3000);
