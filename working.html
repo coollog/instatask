@@ -11,6 +11,7 @@
   var directionsDisplay, directionsService;
 
   var selfMarker = null;
+  var otherMarker = null;
   var locations = [
     '15 Prospect St, New Haven, CT 06520',
     '33 Lynwood Place, New Haven, CT 06520',
@@ -31,6 +32,13 @@
     directionsDisplay.setMap(map);
 
     selfMarker = new google.maps.Marker({
+      position: new google.maps.LatLng(41.311177, -72.925767),
+      map: map,
+      title: "This is a marker!",
+      animation: google.maps.Animation.DROP
+    });
+
+    otherMarker = new google.maps.Marker({
       position: new google.maps.LatLng(41.311177, -72.925767),
       map: map,
       title: "This is a marker!",
@@ -76,6 +84,24 @@
     });
   }
 
+  function otherPosition(callback) {
+    $.get('/workerlocation')
+      .done(function(data) {
+        var latitude = data.latitude;
+        var longitude = data.longitude;
+        callback(latitude, longitude);
+      });
+  }
+
+  function moveOtherMarker() {
+    otherPosition(function(latitude, longitude) {
+      if (otherMarker) {
+        otherMarker.setPosition(new google.maps.LatLng(latitude, longitude));
+      }
+      setTimeout(moveOtherMarker, 1000);
+    });
+  }
+
   function getLocations() {
     $.get('/workinglocations')
       .done(function(data) {
@@ -92,6 +118,7 @@
     });
 
     moveSelfMarker();
+    moveOtherMarker();
   });
 </script>
 
