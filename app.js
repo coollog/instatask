@@ -69,6 +69,15 @@ TaskModel.prototype.get = function(_id, callback) {
   });
 };
 
+TaskModel.prototype.getOpenTasks = function(_id, callback) {
+  _id = new ObjectID(_id);
+  this.collection.findOne({ _id: _id, status: "open" }, function(err, result) {
+    test.equal(null, err);
+    callback(result);
+  });
+};
+
+
 function checkLogin(req, res) {
   if (req.session.user) return true;
 
@@ -166,8 +175,13 @@ app.post('/getTask', function(req, res) {
 
 app.get('/postTask', function(req, res) {
   if (!checkLogin(req, res)) return;
-
   res.sendFile(path.join(__dirname,'giver.html'));
+});
+
+app.get('/homeScreen', function(req, res) {
+  if (!checkLogin(req, res)) return;
+
+  res.sendFile(path.join(__dirname,'homescreen.html'));
 });
 
 app.post('/postTask', function(req, res) {
@@ -186,4 +200,4 @@ app.post('/postTask', function(req, res) {
       });
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);
