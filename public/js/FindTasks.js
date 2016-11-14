@@ -1,0 +1,72 @@
+var FindTasks = function(map) {
+  this.map = map;
+
+  this.infoWindow = new google.maps.InfoWindow();
+
+  this.tasks = {};
+
+  this.initMap();
+};
+
+FindTasks.prototype.initMap = function() {
+  var self = this;
+
+  self.map.init(function(latitude, longitude) {
+    self.getTasks((tasks) => {
+      tasks.forEach((task) => {
+        self.tasks[task._id] = task;
+        self.addMarkerForTask(task);
+      });
+    });
+
+    self.marker = new google.maps.Marker({
+      position: new google.maps.LatLng(latitude, longitude),
+      map: self.map.map,
+      title: "This is a marker!",
+      label: "Me",
+      animation: google.maps.Animation.DROP
+    });
+  });
+};
+
+FindTasks.prototype.getTasks = function(callback) {
+  $.get('/get_tasks').done(callback);
+};
+
+FindTasks.prototype.addMarkerForTask = function(task) {
+  var latLng = new google.maps.LatLng(task.latitude, task.longitude);
+  var marker = new google.maps.Marker({
+    position: latLng,
+    map: this.map.map
+  });
+
+  marker.infoWindowContent =
+    "<p>Task Name: " + task.name + "</p>" +
+    "<p>Task Poster: " + task.employer + "</p>" +
+    "<p>Description: " + task.description + "</p>" +
+    "<p>Compensation: " + task.payment + "</p>" +
+    "<button onClick=\"findTasks.acceptTask('" + task._id + "')\">Accept Task</button>";
+
+  var findTasks = this;
+  google.maps.event.addListener(marker, 'mouseover', function() {
+    findTasks.showInfoWindow(this.infoWindowContent, this);
+  });
+};
+
+FindTasks.prototype.showInfoWindow = function(content, marker) {
+  this.infoWindow.setContent(content);
+  this.infoWindow.open(this.map, marker);
+};
+
+FindTasks.prototype.acceptTask = function(_id) {
+  var task = this.tasks[_id];
+
+  var data = { _id: _id };
+  $.post('/accept_task', data).done((msg) => {
+    console.log(msg);
+    if (msg == 'Task successfully accepted') {
+      this.map.drawRoute(task.latitude, task.longitude);
+    }
+  });
+};
+

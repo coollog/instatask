@@ -4,170 +4,29 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4QjkNoJWuM8oT7NwKN-EoAgsUdYzVYVM"></script>
 
-  <style type="text/css">
-    body {
-      font: helvetica;
-      font-size: 14px;
-    }
-
-    .mapdiv {
-      width: 100%;
-      height: 400px;
-    }
-
-    .inputBox {
-      width: 50%;
-      margin: 5px;
-      display: block;
-    }
-
-    .button {
-      background-color: rgba(65, 174, 65, 1);
-      color: white;
-      margin: 5px;
-      padding: 5px 40px;
-      font-size: 16px;
-      border: none;
-    }
-
-    success {
-      display: none;
-    }
-
-    #finished {
-      display: none;
-    }
-  </style>
+  <link type="text/css" rel="stylesheet" href="css/main.css" />
+  <script src="js/Map.js"></script>
+  <script src="js/CreateTask.js"></script>
+  <script src="js/ViewTask.js"></script>
+  <script src="js/FindTasks.js"></script>
 
   <script>
-
-    var Map = function() {
-      this.map = null;
-
-      this.directionsService = new google.maps.DirectionsService;
-      this.directionsDisplay = new google.maps.DirectionsRenderer;
-    };
-    Map.prototype.getCurrentPosition = function(callback) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        callback(latitude, longitude);
-      });
-    };
-    Map.prototype.init = function(mapElem, latitude, longitude) {
-      var mapOptions = {
-        center: new google.maps.LatLng(latitude, longitude),
-        zoom: 17,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-      this.map = new google.maps.Map(mapElem, mapOptions);
-
-      this.directionsDisplay.setMap(this.map);
-    };
-
-    var CreateTask = function(map) {
-      this.map = map;
-      this.marker = null;
-
-      // Init.
-      this.attachSubmitListener($('#taskSubmit'));
-      this.initMap();
-    };
-    CreateTask.prototype.initMap = function() {
-      var self = this;
-
-      this.map.getCurrentPosition(function(latitude, longitude) {
-        self.map.init($('#map')[0], latitude, longitude);
-
-        self.marker = new google.maps.Marker({
-          position: new google.maps.LatLng(latitude, longitude),
-          map: self.map.map,
-          title: "Set Task Location",
-          draggable: true
-        });
-      });
-    };
-    CreateTask.prototype.attachSubmitListener = function(submitButton) {
-      var self = this;
-
-      submitButton.click(function() {
- //       $(this).hide();
-
-        var title = $('input[name=title]').val();
-        var description = $('textarea[name=description]').val();
-        var payment = $('input[name=payment]').val();
-        var latitude = self.marker.getPosition().lat();
-        var longitude = self.marker.getPosition().lng();
-
-        $.post('/postTask', {
-          title: title,
-          description: description,
-          payment: payment,
-          latitude: latitude,
-          longitude: longitude
-        }).done(function(data) {
-          self.changeToView(data._id);
-        });
-      });
-    };
-    CreateTask.prototype.changeToView = function(_id) {
-      $('postTask').hide();
-      this.marker.setMap(null);
-
-      var viewTask = new ViewTask(this.map, _id);
-    };
-
-    var ViewTask = function(map, taskId) {
-      this.map = map;
-      this.taskId = taskId;
-
-      this.marker = null;
-
-      // Init.
-      this.attachFinishListener($('#finish'));
-      this.initMap();
-      $('viewTask').show();
-      $('#finished').show();
-    };
-    ViewTask.prototype.initMap = function() {
-      var self = this;
-
-      this.getTask(function(task) {
-        var latitude = parseFloat(task.latitude);
-        var longitude = parseFloat(task.longitude);
-
-        self.marker = new google.maps.Marker({
-          position: new google.maps.LatLng(latitude, longitude),
-          title: "This is a marker!",
-          map: self.map.map,
-          animation: google.maps.Animation.DROP
-        });
-      });
-    };
-    ViewTask.prototype.getTask = function(callback) {
-      $.post('/getTask', {
-        _id: this.taskId
-      }).done(callback);
-    };
-    ViewTask.prototype.attachFinishListener = function(finishButton) {
-      finishButton.click(function() {
-      $.get('/finishworking')
-        .done(function() {
-          $('#main').html('FINISHED');
-        });
-      });
-    };
-
+    var findTasks;
     $(function() {
-      var map = new Map();
+      var map = new Map($('#map')[0]);
 
-      var createTask = new CreateTask(map);
+      // var createTask = new CreateTask(map);
+      findTasks = new FindTasks(map);
     });
   </script>
 </head>
 
 <div id="main">
   <div id="map" class="mapdiv"></div>
+
+  <findTasks>
+
+  </findTasks>
 
   <postTask>
   	<p id="demo">Your coordinates:</p>

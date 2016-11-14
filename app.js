@@ -13,8 +13,14 @@ var userModel = null;
 var taskModel = null;
 // Connect using MongoClient
 MongoClient.connect(mongoURI, function(err, db) {
-  userModel = new UserModel(db);
-  taskModel = new TaskModel(db);
+  if (err) {
+    console.log('Unable to connect to the mongoDB server. Error:', err);
+  } else {
+    console.log('Connection established to', mongoURI);
+
+    userModel = new UserModel(db);
+    taskModel = new TaskModel(db);
+  }
 });
 
 var UserModel = function(db) {
@@ -69,11 +75,39 @@ TaskModel.prototype.get = function(_id, callback) {
   });
 };
 
-TaskModel.prototype.getOpenTasks = function(_id, callback) {
+// TaskModel.prototype.getOpenTasks = function(callback) {
+//   _id = new ObjectID(_id);
+//   this.collection.findOne({ _id: _id, status: 'open' }, function(err, result) {
+//     test.equal(null, err);
+//     callback(result);
+//   });
+// };
+
+TaskModel.prototype.getOpenTasks = function(callback) {
+  this.collection.find({ status: 'open' } ).toArray(function(err, documents) {
+    callback(documents);
+  });
+};
+
+TaskModel.prototype.acceptTask = function(_id, employee, callback) {
   _id = new ObjectID(_id);
-  this.collection.findOne({ _id: _id, status: "open" }, function(err, result) {
-    test.equal(null, err);
-    callback(result);
+  employee = new ObjectID(employee);
+
+  var query = { _id: _id, status: 'open' };
+  var $set = {
+    employee: employee,
+    status: 'working'
+  };
+
+  this.collection.update(query, { $set: $set }, function(err, result) {
+    if (err)
+      callback("Connection failed");
+    else if (result.result.nModified == 0)
+      callback("Task occupied");
+    else if (result.result.nModified == 1)
+      callback("Task successfully accepted");
+    else
+      callback("Unknown failure");
   });
 };
 
@@ -102,12 +136,30 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.set ('views', __dirname + '/views');
-app.set ('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
+  if (!checkLogin(req, res)) return;
+  taskModel.getOpenTasks(function(tasks) {
+    res.render('show_jobs.ejs', { tasks: tasks });
+  });
+});
 
+app.get('/get_tasks', function(req, res) {
+  taskModel.getOpenTasks(function(tasks) {
+    res.send(tasks);
+  });
+});
+
+app.post('/accept_task', function(req, res) {
+  var _id = req.body._id;
+  var employee = req.session.user;
+
+  taskModel.acceptTask(_id, employee, function(msg) {
+    res.send(msg);
+  });
 });
 
 app.get('/working', function(req, res) {
