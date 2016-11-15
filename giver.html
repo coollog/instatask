@@ -10,21 +10,32 @@
   <script src="js/ViewTask.js"></script>
   <script src="js/FindTasks.js"></script>
   <script src="js/DoTask.js"></script>
+  <script src="js/TaskController.js"></script>
+
 
   <script>
-    var findTasks;
+
+    var taskController;
+    
     $(function() {
       var map = new Map($('#map')[0]);
-
-      // var createTask = new CreateTask(map);
-      findTasks = new FindTasks(map);
+      taskController = new TaskController(map);
     });
+
+    function showEmployerPage() {
+      taskController.showEmployerPage();
+    }
+
+    function showEmployeePage() {
+      taskController.showEmployeePage();
+    }
+
   </script>
 </head>
 
 <div id="main">
-  <button>Employer</button>
-  <button>Employee</button>
+  <button onclick="showEmployerPage()">Employer</button>
+  <button onclick="showEmployeePage()">Employee</button>
 
   <div id="map" class="mapdiv"></div>
 

@@ -6,7 +6,7 @@ var FindTasks = function(map) {
   this.tasks = {};
   this.markers = [];
 
-  this.initMap();
+  //this.initMap();
 };
 
 FindTasks.prototype.initMap = function() {
@@ -23,15 +23,17 @@ FindTasks.prototype.initMap = function() {
     self.marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longitude),
       map: self.map.map,
-      title: "This is a marker!",
-      label: "Me",
-      animation: google.maps.Animation.DROP
+      title: "My current location",
+      draggable: false
+      //label: "Me",
+      //animation: google.maps.Animation.DROP
     });
   });
 };
 
 FindTasks.prototype.deinitMap = function() {
   this.removeAllTasks();
+  this.marker.setMap(null);
 };
 
 FindTasks.prototype.getTasks = function(callback) {
@@ -42,7 +44,8 @@ FindTasks.prototype.addMarkerForTask = function(task) {
   var latLng = new google.maps.LatLng(task.latitude, task.longitude);
   var marker = new google.maps.Marker({
     position: latLng,
-    map: this.map.map
+    map: this.map.map,
+    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
   });
   this.markers.push(marker);
 
@@ -51,7 +54,7 @@ FindTasks.prototype.addMarkerForTask = function(task) {
     "<p>Task Poster: " + task.employer + "</p>" +
     "<p>Description: " + task.description + "</p>" +
     "<p>Compensation: " + task.payment + "</p>" +
-    "<button onClick=\"findTasks.acceptTask('" + task._id + "')\">Accept Task</button>";
+    "<button onClick=\"taskController.acceptTask('" + task._id + "')\">Accept Task</button>";
 
   var findTasks = this;
   google.maps.event.addListener(marker, 'mouseover', function() {
@@ -88,3 +91,4 @@ FindTasks.prototype.removeAllTasks = function() {
     marker.setMap(null);
   });
 };
+
