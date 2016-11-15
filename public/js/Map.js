@@ -11,7 +11,7 @@ var Map = function(mapElem) {
 };
 
 Map.prototype.getCurrentPosition = function(callback) {
-  navigator.geolocation.getCurrentPosition(function(position) {
+  navigator.geolocation.getCurrentPosition((position) => {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
 
@@ -48,9 +48,8 @@ Map.prototype.drawRoute = function(latitude, longitude) {
     destination: dest,
     travelMode: 'WALKING'
   };
-  console.log(request);
-  this.directionsService.route(request, function(result, status) {
-    console.log(result, status);
+
+  this.directionsService.route(request, (result, status) => {
     if (status == 'OK') {
       this.directionsDisplay.setDirections(result);
     }

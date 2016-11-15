@@ -4,6 +4,7 @@ var FindTasks = function(map) {
   this.infoWindow = new google.maps.InfoWindow();
 
   this.tasks = {};
+  this.markers = [];
 
   this.initMap();
 };
@@ -39,6 +40,7 @@ FindTasks.prototype.addMarkerForTask = function(task) {
     position: latLng,
     map: this.map.map
   });
+  this.markers.push(marker);
 
   marker.infoWindowContent =
     "<p>Task Name: " + task.name + "</p>" +
@@ -65,8 +67,20 @@ FindTasks.prototype.acceptTask = function(_id) {
   $.post('/accept_task', data).done((msg) => {
     console.log(msg);
     if (msg == 'Task successfully accepted') {
-      this.map.drawRoute(task.latitude, task.longitude);
+      this.changeToDo(task);
     }
   });
 };
 
+FindTasks.prototype.changeToDo = function(task) {
+  this.removeAllTasks();
+
+  var doTask = new DoTask(this.map, this.marker, task);
+  doTask.initMap();
+};
+
+FindTasks.prototype.removeAllTasks = function() {
+  this.markers.forEach(function(marker) {
+    marker.setMap(null);
+  });
+};
