@@ -17,7 +17,13 @@ CreateTask.prototype.initMap = function() {
       draggable: true
     });
   });
+
+  $('postTask').show();
 };
+CreateTask.prototype.deinitMap = function() {
+  $('postTask').hide();
+  this.marker.setMap(null);
+}
 CreateTask.prototype.attachSubmitListener = function(submitButton) {
   var self = this;
 
@@ -42,8 +48,6 @@ CreateTask.prototype.attachSubmitListener = function(submitButton) {
   });
 };
 CreateTask.prototype.changeToView = function(_id) {
-  $('postTask').hide();
-  this.marker.setMap(null);
-
+  this.deinitMap();
   var viewTask = new ViewTask(this.map, _id);
 };

@@ -30,6 +30,10 @@ FindTasks.prototype.initMap = function() {
   });
 };
 
+FindTasks.prototype.deinitMap = function() {
+  this.removeAllTasks();
+};
+
 FindTasks.prototype.getTasks = function(callback) {
   $.get('/get_tasks').done(callback);
 };

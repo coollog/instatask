@@ -30,3 +30,7 @@ success {
 #finished {
   display: none;
 }
+
+postTask, viewTask {
+  display: none;
+}
