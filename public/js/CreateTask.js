@@ -4,8 +4,10 @@ var CreateTask = function(map) {
 
   // Init.
   this.attachSubmitListener($('#taskSubmit'));
-  this.initMap();
+  //this.initMap();
 };
+
+
 CreateTask.prototype.initMap = function() {
   var self = this;
 
@@ -51,3 +53,4 @@ CreateTask.prototype.changeToView = function(_id) {
   this.deinitMap();
   var viewTask = new ViewTask(this.map, _id);
 };
+
