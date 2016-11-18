@@ -23,14 +23,14 @@ body {
   border: none;
 }
 
-success {
+success, login, register, postTask, viewTask, #finished, switchType, error {
   display: none;
 }
 
-#finished {
+#map {
   display: none;
 }
 
-postTask, viewTask {
-  display: none;
+error {
+  color: red;
 }

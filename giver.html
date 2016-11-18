@@ -11,33 +11,59 @@
   <script src="js/FindTasks.js"></script>
   <script src="js/DoTask.js"></script>
   <script src="js/TaskController.js"></script>
-
+  <script src="js/UserController.js"></script>
 
   <script>
 
-    var taskController;
-    
     $(function() {
-      var map = new Map($('#map')[0]);
-      taskController = new TaskController(map);
+      var userController = new UserController();
     });
-
-    function showEmployerPage() {
-      taskController.showEmployerPage();
-    }
-
-    function showEmployeePage() {
-      taskController.showEmployeePage();
-    }
 
   </script>
 </head>
 
 <div id="main">
-  <button onclick="showEmployerPage()">Employer</button>
-  <button onclick="showEmployeePage()">Employee</button>
+  <switchType>
+    <button id="showEmployer">Employer</button>
+    <button id="showEmployee">Employee</button>
+  </switchType>
 
   <div id="map" class="mapdiv"></div>
+
+  <register>
+    <div>
+      Email: <input name="email" type="email" />
+    </div>
+    <div>
+      Password: <input name="pass" type="password" />
+    </div>
+    <div>
+      Confirm Password: <input name="pass2" type="password" />
+    </div>
+    <div>
+      Name: <input name="name" />
+    </div>
+    <div>
+      Phone: <input name="phone" type="phone" />
+    </div>
+    <div>
+      <button id="register">Register</button>
+    </div>
+  </register>
+
+  <login>
+    <div>
+      Email: <input name="email" type="email" />
+    </div>
+    <div>
+      Password: <input name="pass" type="password" />
+    </div>
+    <div>
+      <button id="login">Login</button>
+    </div>
+  </login>
+
+  <error></error>
 
   <postTask>
   	<p id="demo">Your coordinates:</p>

@@ -5,8 +5,20 @@ var TaskController = function(map) {
   this.currentPage = "employee";
 
   ////////might need to disable one side when the other side is ongoing
-
+  this.init();
 };
+
+TaskController.prototype.init = function() {
+  $('switchType').show();
+
+  $('#showEmployer').click(function() {
+    taskController.showEmployerPage();
+  });
+
+  $('#showEmployee').click(function() {
+    taskController.showEmployeePage();
+  });
+}
 
 TaskController.prototype.showEmployerPage = function() {
   if(this.currentPage != "employer"){

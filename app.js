@@ -42,8 +42,8 @@ UserModel.prototype.find = function(email, pass, callback) {
     email: email,
     pass: pass
   }, function(err, result) {
-    test.equal(null, err);
-    callback(result._id);
+    if (!result) callback(null);
+    else callback(result._id);
   });
 };
 
@@ -210,6 +210,10 @@ app.post('/login', function(req, res) {
   var pass = req.body.pass;
 
   userModel.find(email, pass, function(_id) {
+    if (_id === null) {
+      res.send({ error: 'login failed' });
+      return;
+    }
     req.session.user = _id;
     res.send({});
   });
@@ -226,7 +230,6 @@ app.post('/getTask', function(req, res) {
 });
 
 app.get('/postTask', function(req, res) {
-  if (!checkLogin(req, res)) return;
   res.sendFile(path.join(__dirname,'giver.html'));
 });
 
