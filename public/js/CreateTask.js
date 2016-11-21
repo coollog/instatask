@@ -4,17 +4,14 @@ var CreateTask = function(map) {
 
   // Init.
   this.attachSubmitListener($('#taskSubmit'));
-  //this.initMap();
 };
 
 
 CreateTask.prototype.initMap = function() {
-  var self = this;
-
-  self.map.init(function(latitude, longitude) {
-    self.marker = new google.maps.Marker({
+  this.map.init((latitude, longitude) => {
+    this.marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longitude),
-      map: self.map.map,
+      map: this.map.map,
       title: "Set Task Location",
       draggable: true
     });
@@ -29,7 +26,7 @@ CreateTask.prototype.deinitMap = function() {
 CreateTask.prototype.attachSubmitListener = function(submitButton) {
   var self = this;
 
-  submitButton.click(function() {
+  submitButton.click(() => {
 //       $(this).hide();
 
     var title = $('input[name=title]').val();
@@ -44,7 +41,7 @@ CreateTask.prototype.attachSubmitListener = function(submitButton) {
       payment: payment,
       latitude: latitude,
       longitude: longitude
-    }).done(function(data) {
+    }).done((data) => {
       self.changeToView(data._id);
     });
   });

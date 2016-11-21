@@ -141,10 +141,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res) {
-  if (!checkLogin(req, res)) return;
-  taskModel.getOpenTasks(function(tasks) {
-    res.render('show_jobs.ejs', { tasks: tasks });
-  });
+  res.sendFile(path.join(__dirname, 'main.html'));
 });
 
 app.get('/get_tasks', function(req, res) {
@@ -227,10 +224,6 @@ app.post('/getTask', function(req, res) {
   var task = taskModel.get(_id, function(task) {
     res.send(task);
   });
-});
-
-app.get('/postTask', function(req, res) {
-  res.sendFile(path.join(__dirname,'giver.html'));
 });
 
 app.get('/homeScreen', function(req, res) {

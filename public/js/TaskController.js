@@ -11,12 +11,12 @@ var TaskController = function(map) {
 TaskController.prototype.init = function() {
   $('switchType').show();
 
-  $('#showEmployer').click(function() {
-    taskController.showEmployerPage();
+  $('#showEmployer').click(() => {
+    this.showEmployerPage();
   });
 
-  $('#showEmployee').click(function() {
-    taskController.showEmployeePage();
+  $('#showEmployee').click(() => {
+    this.showEmployeePage();
   });
 }
 
