@@ -1,3 +1,7 @@
+<head>
+<link type="text/css" rel="stylesheet" href="public/css/test.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
   success {
     display: none;
@@ -26,19 +30,25 @@
     });
   });
 </script>
+</head>
 
-<error></error>
-<login>
-  <div>
-    Email: <input name="email" type="email" />
-  </div>
-  <div>
-    Password: <input name="pass" type="password" />
-  </div>
-  <div>
-    <button id="login">Login</button>
-  </div>
-</login>
-<success>
-  WHOOO
-</success>
+<body>
+  <error></error>
+  <login>
+    <div class="form">
+      <h2>Instatask Login</h2>
+      <div>
+        <input class="input" name="email" type="email" placeholder="email" />
+      </div>
+      <div>
+        <input class="input" name="pass" type="password" placeholder="password" />
+      </div>
+      <div>
+        <button class="button" id="login">Login</button>
+      </div>
+    </div>
+  </login>
+  <success>
+    WHOOO
+  </success>
+</body>

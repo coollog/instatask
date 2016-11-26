@@ -1,59 +1,69 @@
-<style>
-  success {
-    display: none;
-  }
-</style>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" rel="stylesheet" href="public/css/test.css" />
+  <style>
+    success {
+      display: none;
+    }
+  </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
-<script>
-  $(function() {
-    $('#register').click(function() {
-      var email = $('input[name=email]').val();
-      var pass = $('input[name=pass]').val();
-      var pass2 = $('input[name=pass2]').val();
-      var name = $('input[name=name]').val();
-      var phone = $('input[name=phone]').val();
+  <script>
+    $(function() {
+      $('#register').click(function() {
+        var email = $('input[name=email]').val();
+        var pass = $('input[name=pass]').val();
+        var pass2 = $('input[name=pass2]').val();
+        var name = $('input[name=name]').val();
+        var phone = $('input[name=phone]').val();
 
-      $.post('/register', {
-        email: email,
-        pass: pass,
-        pass2: pass2,
-        name: name,
-        phone: phone
-      }).done(function(data) {
-        if (data.error) {
-          $('error').html(data.error).show();
-          return;
-        }
-        $('register').hide();
-        $('success').show();
+        $.post('/register', {
+          email: email,
+          pass: pass,
+          pass2: pass2,
+          name: name,
+          phone: phone
+        }).done(function(data) {
+          if (data.error) {
+            $('error').html(data.error).show();
+            return;
+          }
+          $('register').hide();
+          $('success').show();
+        });
       });
     });
-  });
-</script>
+  </script>
+</head>
 
 <error></error>
-<register>
-  <div>
-    Email: <input name="email" type="email" />
-  </div>
-  <div>
-    Password: <input name="pass" type="password" />
-  </div>
-  <div>
-    Confirm Password: <input name="pass2" type="password" />
-  </div>
-  <div>
-    Name: <input name="name" />
-  </div>
-  <div>
-    Phone: <input name="phone" type="phone" />
-  </div>
-  <div>
-    <button id="register">Register</button>
-  </div>
-</register>
-<success>
-  WHOOO
-</success>
+
+<body>
+  <register>
+    <div class="form">
+      <h2>Registration</h2>
+      <div>
+        <input class="input" name="email" type="email" placeholder="Enter email" />
+      </div>
+      <div>
+        <input class="input" name="pass" type="password" placeholder="Create password" />
+      </div>
+      <div>
+        <input class="input" name="pass2" type="password" placeholder="Re-enter password" />
+      </div>
+      <div>
+        <input class="input" name="name" placeholder="Full Name" />
+      </div>
+      <div>
+        <input class="input" name="phone" type="phone" placeholder="Phone" />
+      </div>
+      <div>
+        <button class="button" id="register">Register</button>
+      </div>
+    </div>
+  </register>
+  <success>
+    WHOOO
+  </success>
+</body>
