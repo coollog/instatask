@@ -3,8 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4QjkNoJWuM8oT7NwKN-EoAgsUdYzVYVM"></script>
-
   <link type="text/css" rel="stylesheet" href="css/main.css" />
+  <link type="text/css" rel="stylesheet" href="public/css/test.css" />
   <script src="js/Map.js"></script>
   <script src="js/CreateTask.js"></script>
   <script src="js/ViewTask.js"></script>
@@ -24,58 +24,64 @@
 
 <div id="main">
   <switchType>
-    <button id="showEmployer">Employer</button>
-    <button id="showEmployee">Employee</button>
+    <button class="button" id="showEmployer">Give Task</button>
+    <button class="button" id="showEmployee">Find Task</button>
   </switchType>
 
   <div id="map" class="mapdiv"></div>
 
   <register>
-    <div>
-      Email: <input name="email" type="email" />
-    </div>
-    <div>
-      Password: <input name="pass" type="password" />
-    </div>
-    <div>
-      Confirm Password: <input name="pass2" type="password" />
-    </div>
-    <div>
-      Name: <input name="name" />
-    </div>
-    <div>
-      Phone: <input name="phone" type="phone" />
-    </div>
-    <div>
-      <button id="register">Register</button>
+    <div class="form">
+      <h2>Registration</h2>
+      <div>
+        <input class="input" name="email" type="email" placeholder="Enter email" />
+      </div>
+      <div>
+        <input class="input" name="pass" type="password" placeholder="Create password" />
+      </div>
+      <div>
+        <input class="input" name="pass2" type="password" placeholder="Re-enter password" />
+      </div>
+      <div>
+        <input class="input" name="name" placeholder="Full Name" />
+      </div>
+      <div>
+        <input class="input" name="phone" type="phone" placeholder="Phone" />
+      </div>
+      <div>
+        <button class="button" id="register">Register</button>
+      </div>
     </div>
   </register>
 
   <login>
-    <div>
-      Email: <input name="email" type="email" />
-    </div>
-    <div>
-      Password: <input name="pass" type="password" />
-    </div>
-    <div>
-      <button id="login">Login</button>
+    <div class="form">
+      <h2>Instatask Login</h2>
+      <div>
+        <input class="input" name="email" type="email" placeholder="email" />
+      </div>
+      <div>
+        <input class="input" name="pass" type="password" placeholder="password" />
+      </div>
+      <div>
+        <button class="button" id="login">Login</button>
+      </div>
     </div>
   </login>
 
   <error></error>
 
   <postTask>
-  	<p id="demo">Your coordinates:</p>
-  	<p id="test"></p>
-  	<input required class="inputBox" type="text" name="title" placeholder="Enter job title" id="jobHeading" />
+    <div class="form">
+  	<input required class="input" type="text" name="title" placeholder="Enter job title" id="jobHeading" />
   	<textarea class="inputBox" name="description" placeholder="Enter job description" id="jobDesc"></textarea>
-  	<input class="inputBox" required type="number" name="payment" placeholder="0.00" min="0" step="0.1">
-  	<input type="submit" class="button" id="taskSubmit" value="Next" />
+  	<input class="input" required type="number" name="payment" placeholder="0.00" min="0" step="0.1">
+  	<button class="button" id="login" id="taskSubmit">Create Task</button>
+  	</div>
   </postTask>
 
   <viewTask>
-    <button id="finish">Finished</button>
+    <button class="button" id="finish">Finished</button>
   </viewTask>
 
   <success>
