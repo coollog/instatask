@@ -2,6 +2,8 @@ var CreateTask = function(map) {
   this.map = map;
   this.marker = null;
 
+  this.viewTask = null;
+
   // Init.
   this.attachSubmitListener($('#taskSubmit'));
 };
@@ -22,6 +24,9 @@ CreateTask.prototype.initMap = function() {
 CreateTask.prototype.deinitMap = function() {
   $('postTask').hide();
   this.marker.setMap(null);
+  if (this.viewTask) {
+    this.viewTask.deinitMap();
+  }
 }
 CreateTask.prototype.attachSubmitListener = function(submitButton) {
   var self = this;
@@ -48,6 +53,6 @@ CreateTask.prototype.attachSubmitListener = function(submitButton) {
 };
 CreateTask.prototype.changeToView = function(_id) {
   this.deinitMap();
-  var viewTask = new ViewTask(this.map, _id);
+  this.viewTask = new ViewTask(this.map, _id);
 };
 

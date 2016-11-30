@@ -13,6 +13,13 @@ UserController.prototype.init = function() {
   $('#register').click(() => {
     this.register();
   });
+
+  $('#toregister').click(() => {
+    this.switchToRegister();
+  });
+  $('#tologin').click(() => {
+    this.switchToLogin();
+  });
 };
 
 UserController.prototype.deinit = function() {
@@ -82,10 +89,8 @@ UserController.prototype.switchToLogin = function() {
 };
 
 UserController.prototype.success = function() {
-  var taskController;
-
   var map = new Map($('#map')[0]);
-  new TaskController(map);
+  taskController = new TaskController(map);
   $('#map').show();
 
   this.deinit();

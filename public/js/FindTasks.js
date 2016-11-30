@@ -49,6 +49,7 @@ FindTasks.prototype.addMarkerForTask = function(task) {
   });
   this.markers.push(marker);
 
+console.log(task);
   marker.infoWindowContent =
     "<p>Task Name: " + task.name + "</p>" +
     "<p>Task Poster: " + task.employer + "</p>" +

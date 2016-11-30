@@ -11,19 +11,22 @@ var ViewTask = function(map, taskId) {
   $('#finished').show();
 };
 ViewTask.prototype.initMap = function() {
-  var self = this;
-
-  this.getTask(function(task) {
+  this.getTask((task) => {
     var latitude = parseFloat(task.latitude);
     var longitude = parseFloat(task.longitude);
 
-    self.marker = new google.maps.Marker({
+    this.marker = new google.maps.Marker({
       position: new google.maps.LatLng(latitude, longitude),
       title: "This is a marker!",
-      map: self.map.map,
+      map: this.map.map,
       animation: google.maps.Animation.DROP
     });
   });
+};
+ViewTask.prototype.deinitMap = function() {
+  if (this.marker) {
+    this.marker.setMap(null);
+  }
 };
 ViewTask.prototype.getTask = function(callback) {
   $.post('/getTask', {
