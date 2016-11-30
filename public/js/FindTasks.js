@@ -33,7 +33,7 @@ FindTasks.prototype.initMap = function() {
 
 FindTasks.prototype.deinitMap = function() {
   this.removeAllTasks();
-  this.marker.setMap(null);
+  if (this.marker) this.marker.setMap(null);
 };
 
 FindTasks.prototype.getTasks = function(callback) {

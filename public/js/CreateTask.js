@@ -11,12 +11,19 @@ var CreateTask = function(map) {
 
 CreateTask.prototype.initMap = function() {
   this.map.init((latitude, longitude) => {
-    this.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(latitude, longitude),
-      map: this.map.map,
-      title: "Set Task Location",
-      draggable: true
-    });
+    var markerPos = new google.maps.LatLng(latitude, longitude);
+
+    if (this.marker) {
+      this.marker.setMap(this.map.map);
+      this.marker.setPosition(markerPos);
+    } else {
+      this.marker = new google.maps.Marker({
+        position: markerPos,
+        map: this.map.map,
+        title: "Set Task Location",
+        draggable: true
+      });
+    }
   });
 
   $('postTask').show();
@@ -37,8 +44,8 @@ CreateTask.prototype.attachSubmitListener = function(submitButton) {
     var title = $('input[name=title]').val();
     var description = $('textarea[name=description]').val();
     var payment = $('input[name=payment]').val();
-    var latitude = self.marker.getPosition().lat();
-    var longitude = self.marker.getPosition().lng();
+    var latitude = this.marker.getPosition().lat();
+    var longitude = this.marker.getPosition().lng();
 
     $.post('/postTask', {
       title: title,
@@ -47,12 +54,12 @@ CreateTask.prototype.attachSubmitListener = function(submitButton) {
       latitude: latitude,
       longitude: longitude
     }).done((data) => {
-      self.changeToView(data._id);
+      this.changeToView(data._id);
     });
   });
 };
 CreateTask.prototype.changeToView = function(_id) {
   this.deinitMap();
-  this.viewTask = new ViewTask(this.map, _id);
+  this.viewTask = new ViewTask(this.map, _id, this);
 };
 

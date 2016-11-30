@@ -1,16 +1,18 @@
-var ViewTask = function(map, taskId) {
+var ViewTask = function(map, taskId, createTask) {
   this.map = map;
   this.taskId = taskId;
+  this.createTask = createTask;
 
   this.marker = null;
 
   // Init.
   this.attachFinishListener($('#finish'));
   this.initMap();
-  $('viewTask').show();
-  $('#finished').show();
 };
 ViewTask.prototype.initMap = function() {
+  $('viewTask').show();
+  $('#finished').show();
+
   this.getTask((task) => {
     var latitude = parseFloat(task.latitude);
     var longitude = parseFloat(task.longitude);
@@ -24,6 +26,7 @@ ViewTask.prototype.initMap = function() {
   });
 };
 ViewTask.prototype.deinitMap = function() {
+  $('viewTask').hide();
   if (this.marker) {
     this.marker.setMap(null);
   }
@@ -34,10 +37,14 @@ ViewTask.prototype.getTask = function(callback) {
   }).done(callback);
 };
 ViewTask.prototype.attachFinishListener = function(finishButton) {
-  finishButton.click(function() {
-  $.get('/finishworking')
-    .done(function() {
-      $('#main').html('FINISHED');
-    });
+  finishButton.click(() => {
+    $.get('/finishworking')
+      .done(() => {
+        this.changeToCreate();
+      });
   });
+};
+ViewTask.prototype.changeToCreate = function() {
+  this.deinitMap();
+  this.createTask.initMap();
 };
