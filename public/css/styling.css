@@ -91,6 +91,10 @@ a:active {
     margin-bottom: 10px;
     text-align: center;
 }
+
+.finish-button{
+  text-align: center;
+}
 .button:hover,
 .button :focus {
   background: #148d6c;
