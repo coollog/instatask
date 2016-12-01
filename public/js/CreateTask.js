@@ -8,8 +8,23 @@ var CreateTask = function(map) {
   this.attachSubmitListener($('#taskSubmit'));
 };
 
-
+CreateTask.prototype.show = function() {
+  if (this.viewTask) {
+    this.viewTask.initMap();
+  } else {
+    this.initMap();
+  }
+};
+CreateTask.prototype.hide = function() {
+  if (this.viewTask) {
+    this.viewTask.deinitMap();
+  } else {
+    this.deinitMap();
+  }
+};
 CreateTask.prototype.initMap = function() {
+  this.viewTask = null;
+
   this.map.init((latitude, longitude) => {
     var markerPos = new google.maps.LatLng(latitude, longitude);
 

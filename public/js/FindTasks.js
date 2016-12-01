@@ -6,28 +6,50 @@ var FindTasks = function(map) {
   this.tasks = {};
   this.markers = [];
 
+  this.doTask = null;
+
   //this.initMap();
 };
 
-FindTasks.prototype.initMap = function() {
-  var self = this;
+FindTasks.prototype.show = function() {
+  if (this.doTask) {
+    this.doTask.initMap();
+  } else {
+    this.initMap();
+  }
+};
 
-  self.map.init(function(latitude, longitude) {
-    self.getTasks((tasks) => {
+FindTasks.prototype.hide = function() {
+  if (this.doTask) {
+    this.doTask.deinitMap();
+  } else {
+    this.deinitMap();
+  }
+}
+
+FindTasks.prototype.initMap = function() {
+  this.doTask = null;
+
+  this.map.init((latitude, longitude) => {
+    this.getTasks((tasks) => {
       tasks.forEach((task) => {
-        self.tasks[task._id] = task;
-        self.addMarkerForTask(task);
+        this.tasks[task._id] = task;
+        this.addMarkerForTask(task);
       });
     });
 
-    self.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(latitude, longitude),
-      map: self.map.map,
-      title: "My current location",
-      draggable: false
-      //label: "Me",
-      //animation: google.maps.Animation.DROP
-    });
+    if (this.marker) {
+      this.marker.setMap(this.map.map);
+    } else {
+      this.marker = new google.maps.Marker({
+        position: new google.maps.LatLng(latitude, longitude),
+        map: this.map.map,
+        title: "My current location",
+        draggable: false
+        //label: "Me",
+        //animation: google.maps.Animation.DROP
+      });
+    }
   });
 };
 
@@ -83,8 +105,8 @@ FindTasks.prototype.acceptTask = function(_id) {
 FindTasks.prototype.changeToDo = function(task) {
   this.removeAllTasks();
 
-  var doTask = new DoTask(this.map, this.marker, task);
-  doTask.initMap();
+  this.doTask = new DoTask(this.map, this.marker, task);
+  this.doTask.initMap();
 };
 
 FindTasks.prototype.removeAllTasks = function() {

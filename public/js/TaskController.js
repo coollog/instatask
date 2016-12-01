@@ -22,16 +22,16 @@ TaskController.prototype.init = function() {
 
 TaskController.prototype.showEmployerPage = function() {
   if(this.currentPage != "employer"){
-    this.findTasks.deinitMap();
-    this.createTask.initMap();
+    this.findTasks.hide();
+    this.createTask.show();
     this.currentPage = "employer";
   }
 };
 
 TaskController.prototype.showEmployeePage = function() {
   if(this.currentPage != "employee"){
-    this.createTask.deinitMap();
-    this.findTasks.initMap();
+    this.createTask.hide();
+    this.findTasks.show();
     this.currentPage = "employee";
   }
 };

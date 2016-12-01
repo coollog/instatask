@@ -13,17 +13,21 @@ ViewTask.prototype.initMap = function() {
   $('viewTask').show();
   $('#finished').show();
 
-  this.getTask((task) => {
-    var latitude = parseFloat(task.latitude);
-    var longitude = parseFloat(task.longitude);
+  if (this.marker) {
+    this.marker.setMap(this.map.map);
+  } else {
+    this.getTask((task) => {
+      var latitude = parseFloat(task.latitude);
+      var longitude = parseFloat(task.longitude);
 
-    this.marker = new google.maps.Marker({
-      position: new google.maps.LatLng(latitude, longitude),
-      title: "This is a marker!",
-      map: this.map.map,
-      animation: google.maps.Animation.DROP
+      this.marker = new google.maps.Marker({
+        position: new google.maps.LatLng(latitude, longitude),
+        title: "This is a marker!",
+        map: this.map.map,
+        animation: google.maps.Animation.DROP
+      });
     });
-  });
+  }
 };
 ViewTask.prototype.deinitMap = function() {
   $('viewTask').hide();
