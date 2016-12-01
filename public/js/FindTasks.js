@@ -73,7 +73,7 @@ FindTasks.prototype.addMarkerForTask = function(task) {
 
 console.log(task);
   marker.infoWindowContent =
-    "<p>Task Name: " + task.name + "</p>" +
+    "<p>Task Name: " + task.title + "</p>" +
     "<p>Task Poster: " + task.employer + "</p>" +
     "<p>Description: " + task.description + "</p>" +
     "<p>Compensation: " + task.payment + "</p>" +

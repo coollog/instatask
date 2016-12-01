@@ -15,3 +15,9 @@ var DoTask = function(map, selfMarker, task) {
 DoTask.prototype.initMap = function() {
   this.map.drawRoute(this.task.latitude, this.task.longitude);
 };
+
+DoTask.prototype.deinitMap = function() {
+  if (this.marker) {
+    this.marker.setMap(null);
+  }
+};
