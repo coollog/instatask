@@ -1,0 +1,95 @@
+body {
+  background: #2E3740;
+  color: #435160;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 4vh;
+}
+
+.form-absolute {
+  width: 350px;
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  margin-left: -175px;
+}
+
+.form-relative {
+  width: 350px;
+  position: relative;
+  top: 10%;
+  left: 50%;
+  margin-left: -175px;
+}
+
+
+h2 {
+  color: #6D7781;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input {
+  width: 350px;
+  padding: 20px 0px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #435160;
+  outline: none;
+  color: #6D7781;
+}
+
+.button {
+  margin-top: 20px;
+  background: #1ab188;
+  border: 0;
+  width: 350px;
+  height: 40px;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  transition: background .3s ease-in-out;
+}
+
+.button-switch {
+  background: #1ab188;
+  border: 0;
+  width: 175px;
+  height: 40px;
+  border-radius: 3px;
+  display: inline;
+  color: #fff;
+  cursor: pointer;
+  transition: background .3s ease-in-out;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
+}
+
+#toregister,
+#tologin {
+  margin-top: 30px;
+  color: white;
+  font-size: 2vh;
+}
+
+.switch-buttons{
+    margin-bottom: 10px;
+}
+.button:hover,
+.button :focus {
+  background: #148d6c;
+}

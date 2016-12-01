@@ -55,7 +55,7 @@ console.log(task);
     "<p>Task Poster: " + task.employer + "</p>" +
     "<p>Description: " + task.description + "</p>" +
     "<p>Compensation: " + task.payment + "</p>" +
-    "<button onClick=\"taskController.acceptTask('" + task._id + "')\">Accept Task</button>";
+    "<button class=\"button\" onClick=\"taskController.acceptTask('" + task._id + "')\">Accept Task</button>";
 
   var findTasks = this;
   google.maps.event.addListener(marker, 'mouseover', function() {

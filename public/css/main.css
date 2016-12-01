@@ -1,26 +1,6 @@
-body {
-  font: helvetica;
-  font-size: 14px;
-}
-
 .mapdiv {
   width: 100%;
   height: 400px;
-}
-
-.inputBox {
-  width: 50%;
-  margin: 5px;
-  display: block;
-}
-
-.button {
-  background-color: rgba(65, 174, 65, 1);
-  color: white;
-  margin: 5px;
-  padding: 5px 40px;
-  font-size: 16px;
-  border: none;
 }
 
 success, login, register, postTask, viewTask, #finished, switchType, error {
