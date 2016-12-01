@@ -20,4 +20,5 @@ DoTask.prototype.deinitMap = function() {
   if (this.marker) {
     this.marker.setMap(null);
   }
+  this.map.clearRoute();
 };

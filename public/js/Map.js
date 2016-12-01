@@ -40,6 +40,9 @@ Map.prototype.init = function(callback) {
 };
 
 Map.prototype.drawRoute = function(latitude, longitude) {
+  if(!this.directionsDisplay.getMap()){
+    this.directionsDisplay.setMap(this.map);
+  }
   var src = new google.maps.LatLng(this.currentLatitude, this.currentLongitude);
   var dest = new google.maps.LatLng(latitude, longitude);
 
@@ -54,4 +57,10 @@ Map.prototype.drawRoute = function(latitude, longitude) {
       this.directionsDisplay.setDirections(result);
     }
   });
+};
+
+Map.prototype.clearRoute = function() {
+  if (this.directionsDisplay != null) {
+        this.directionsDisplay.setMap(null);
+    }
 };

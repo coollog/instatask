@@ -7,6 +7,8 @@ var FindTasks = function(map) {
   this.markers = [];
 
   this.doTask = null;
+  this.currentTask = null;
+
 
   //this.initMap();
 };
@@ -51,11 +53,19 @@ FindTasks.prototype.initMap = function() {
       });
     }
   });
+
+  if(this.currentTask !== null){
+    this.changeToDo(this.currentTask);
+  }
+
 };
 
 FindTasks.prototype.deinitMap = function() {
   this.removeAllTasks();
   if (this.marker) this.marker.setMap(null);
+  if(this.doTask !== null){
+     this.doTask.deinitMap();
+  }
 };
 
 FindTasks.prototype.getTasks = function(callback) {
@@ -97,6 +107,7 @@ FindTasks.prototype.acceptTask = function(_id) {
   $.post('/accept_task', data).done((msg) => {
     console.log(msg);
     if (msg == 'Task successfully accepted') {
+      this.currentTask = task;
       this.changeToDo(task);
     }
   });
