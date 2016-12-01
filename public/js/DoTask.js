@@ -17,8 +17,9 @@ DoTask.prototype.initMap = function() {
 };
 
 DoTask.prototype.deinitMap = function() {
-  if (this.marker) {
-    this.marker.setMap(null);
+  if (this.selfMarker) this.selfMarker.setMap(null);
+  if (this.taskMarker) {
+    this.taskMarker.setMap(null);
   }
   this.map.clearRoute();
 };

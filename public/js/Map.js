@@ -61,6 +61,6 @@ Map.prototype.drawRoute = function(latitude, longitude) {
 
 Map.prototype.clearRoute = function() {
   if (this.directionsDisplay != null) {
-        this.directionsDisplay.setMap(null);
-    }
+    this.directionsDisplay.setMap(null);
+  }
 };
