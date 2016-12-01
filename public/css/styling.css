@@ -9,6 +9,7 @@ body {
   width: 350px;
   position: absolute;
   top: 10%;
+  text-align: center;
   left: 50%;
   margin-left: -175px;
 }
@@ -17,6 +18,7 @@ body {
   width: 350px;
   position: relative;
   top: 10%;
+  text-align: center;
   left: 50%;
   margin-left: -175px;
 }
@@ -25,7 +27,6 @@ body {
 h2 {
   color: #6D7781;
   font-weight: bold;
-  text-align: center;
   margin-bottom: 20px;
 }
 
@@ -43,7 +44,7 @@ h2 {
   margin-top: 20px;
   background: #1ab188;
   border: 0;
-  width: 350px;
+  width: 200px;
   height: 40px;
   border-radius: 3px;
   color: #fff;
@@ -54,7 +55,7 @@ h2 {
 .button-switch {
   background: #1ab188;
   border: 0;
-  width: 175px;
+  width: 80px;
   height: 40px;
   border-radius: 3px;
   display: inline;
@@ -88,6 +89,7 @@ a:active {
 
 .switch-buttons{
     margin-bottom: 10px;
+    text-align: center;
 }
 .button:hover,
 .button :focus {
