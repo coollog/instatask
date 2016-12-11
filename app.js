@@ -111,6 +111,28 @@ TaskModel.prototype.acceptTask = function(_id, employee, callback) {
   });
 };
 
+// add finishTask, take _id, employer and callback
+
+TaskModel.prototype.finishTask = function(_id, employer, callback) {
+  _id = new ObjectID(_id);
+  employer = new ObjectID(employer);
+
+  var query = { _id: _id, status: 'working' };
+  var $set = {
+    status: 'finished'
+  };
+
+  this.collection.update(query, { $set: $set }, function(err, result) {
+    if (err)
+      callback("Connection failed");
+    else if (result.result.nModified == 0)
+      callback("Still working on it");
+    else if (result.result.nModified == 1)
+      callback("Task successfully finished");
+    else
+      callback("Unknown failure");
+  });
+};
 
 function checkLogin(req, res) {
   if (req.session.user) return true;
@@ -158,6 +180,17 @@ app.post('/accept_task', function(req, res) {
     res.send(msg);
   });
 });
+
+// add app.post('/finish_task')
+app.post('/finish_task', function(req, res) {
+  var _id = req.body._id;
+  var employer = req.session.user;
+
+  taskModel.finishTask(_id, employer, function(msg) {
+    res.send(msg);
+  });
+});
+
 
 app.get('/working', function(req, res) {
   if (!checkLogin(req, res)) return;
