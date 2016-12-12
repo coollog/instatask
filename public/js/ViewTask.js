@@ -41,11 +41,15 @@ ViewTask.prototype.getTask = function(callback) {
   }).done(callback);
 };
 ViewTask.prototype.attachFinishListener = function(finishButton) {
+  var data = { _id: this.taskId };
   finishButton.click(() => {
-    $.get('/finishworking')
-      .done(() => {
+    $.post('/finish_task', data).done((msg) => {
+      console.log(msg);
+      if (msg == "Task successfully finished") {
+        console.log("hi");
         this.changeToCreate();
-      });
+      }
+    });
   });
 };
 ViewTask.prototype.changeToCreate = function() {

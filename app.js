@@ -111,13 +111,11 @@ TaskModel.prototype.acceptTask = function(_id, employee, callback) {
   });
 };
 
-// add finishTask, take _id, employer and callback
-
 TaskModel.prototype.finishTask = function(_id, employer, callback) {
   _id = new ObjectID(_id);
   employer = new ObjectID(employer);
 
-  var query = { _id: _id, status: 'working' };
+  var query = { _id: _id};
   var $set = {
     status: 'finished'
   };
@@ -181,7 +179,6 @@ app.post('/accept_task', function(req, res) {
   });
 });
 
-// add app.post('/finish_task')
 app.post('/finish_task', function(req, res) {
   var _id = req.body._id;
   var employer = req.session.user;
@@ -195,10 +192,6 @@ app.post('/finish_task', function(req, res) {
 app.get('/working', function(req, res) {
   if (!checkLogin(req, res)) return;
   res.send(fs.readFileSync('working.html', 'utf8'));
-});
-
-app.get('/finishworking', function(req, res) {
-  res.send('done');
 });
 
 app.get('/workinglocations');
