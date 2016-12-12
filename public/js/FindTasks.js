@@ -102,21 +102,20 @@ FindTasks.prototype.showInfoWindow = function(content, marker) {
 
 FindTasks.prototype.acceptTask = function(_id) {
   var task = this.tasks[_id];
-
   var data = { _id: _id };
   $.post('/accept_task', data).done((msg) => {
     console.log(msg);
     if (msg == 'Task successfully accepted') {
       this.currentTask = task;
-      this.changeToDo(task);
+      this.changeToDo(task, _id);
     }
   });
 };
 
-FindTasks.prototype.changeToDo = function(task) {
+FindTasks.prototype.changeToDo = function(task,_id) {
   this.removeAllTasks();
-
-  this.doTask = new DoTask(this.map, this.marker, task);
+  console.log('About to make a new DoTask. `this` = ', this);
+  this.doTask = new DoTask(this.map, this.marker, task, _id, this);
   this.doTask.initMap();
 };
 

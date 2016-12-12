@@ -46,7 +46,6 @@ ViewTask.prototype.attachFinishListener = function(finishButton) {
     $.post('/finish_task', data).done((msg) => {
       console.log(msg);
       if (msg == "Task successfully finished") {
-        console.log("hi");
         this.changeToCreate();
       }
     });

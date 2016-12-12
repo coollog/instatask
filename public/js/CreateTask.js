@@ -69,7 +69,7 @@ CreateTask.prototype.attachSubmitListener = function(submitButton) {
       latitude: latitude,
       longitude: longitude
     }).done((data) => {
-      this.changeToView(data._id);
+      this.changeToView(data._id);//taskController.changeToView(data._id);
     });
   });
 };
