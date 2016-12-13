@@ -8,9 +8,9 @@ var FindTasks = function(map) {
 
   this.doTask = null;
   this.currentTask = null;
+  this.currentTask_id = null;
 
-
-  //this.initMap();
+  this.initMap();
 };
 
 FindTasks.prototype.show = function() {
@@ -31,7 +31,8 @@ FindTasks.prototype.hide = function() {
 
 FindTasks.prototype.initMap = function() {
   this.doTask = null;
-
+  this.currentTask = null;
+  this.currentTask_id = null;
   this.map.init((latitude, longitude) => {
     this.getTasks((tasks) => {
       tasks.forEach((task) => {
@@ -54,9 +55,9 @@ FindTasks.prototype.initMap = function() {
     }
   });
 
-  if(this.currentTask !== null){
-    this.changeToDo(this.currentTask);
-  }
+  // if(this.currentTask !== null){
+  //   this.changeToDo(this.currentTask);
+  // }
 
 };
 
@@ -82,13 +83,13 @@ FindTasks.prototype.addMarkerForTask = function(task) {
   this.markers.push(marker);
 
 console.log(task);
+  this.currentTask_id = task._id;
   marker.infoWindowContent =
     "<p>Task Name: " + task.title + "</p>" +
     "<p>Task Poster: " + task.employer + "</p>" +
     "<p>Description: " + task.description + "</p>" +
     "<p>Compensation: " + task.payment + "</p>" +
-    "<button class=\"button\" onClick=\"taskController.acceptTask('" + task._id + "')\">Accept Task</button>";
-
+    "<button class=\"button\" onClick=\"taskController.acceptTask('" + this.currentTask_id + "')\">Accept Task</button>";
   var findTasks = this;
   google.maps.event.addListener(marker, 'mouseover', function() {
     findTasks.showInfoWindow(this.infoWindowContent, this);
@@ -107,7 +108,7 @@ FindTasks.prototype.acceptTask = function(_id) {
     console.log(msg);
     if (msg == 'Task successfully accepted') {
       this.currentTask = task;
-      this.changeToDo(task, _id);
+      this.changeToDo(this.currentTask, _id);
     }
   });
 };
